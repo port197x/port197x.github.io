@@ -1,0 +1,39 @@
+name: Sync Dev to Main
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+
+      - name: Copy dev files to main/dev folder
+        run: |
+          mkdir -p main/dev
+          cp -r * main/dev/
+          # Exclude unnecessary files (e.g., .git, .github)
+          rm -rf main/dev/.git main/dev/.github
+
+      - name: Commit and push to main
+        working-directory: main
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add dev/
+          git commit -m "Sync dev branch to main/dev folder" || echo "No changes to commit"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

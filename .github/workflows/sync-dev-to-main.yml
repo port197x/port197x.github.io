@@ -2,9 +2,8 @@ name: Sync Dev to Main
 
 on:
   push:
-    branches: ["dev"]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches:
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -28,7 +27,7 @@ jobs:
       - name: Copy dev files to main/dev folder
         run: |
           mkdir -p main/dev
-          rsync -av --exclude='main' . main/dev/
+          rsync -av --exclude='main' --exclude='.gitignore' . main/dev/
           rm -rf main/dev/.git main/dev/.github
 
       - name: Commit and push to main

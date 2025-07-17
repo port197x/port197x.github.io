@@ -1,12 +1,14 @@
 name: Sync Dev to Main
 
 on:
-  # Runs on pushes targeting the dev branch
   push:
     branches: ["dev"]
-    
+
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:    
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Ensure the workflow can write to the repository
 
 jobs:
   sync:
@@ -26,8 +28,7 @@ jobs:
       - name: Copy dev files to main/dev folder
         run: |
           mkdir -p main/dev
-          cp -r * main/dev/
-          # Exclude unnecessary files (e.g., .git, .github)
+          rsync -av --exclude='main' . main/dev/
           rm -rf main/dev/.git main/dev/.github
 
       - name: Commit and push to main

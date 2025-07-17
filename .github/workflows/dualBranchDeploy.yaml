@@ -1,38 +1,43 @@
-name: Deploy main and dev to GitHub Pages
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main
-      - dev
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
+  # Single deploy job since we're just deploying
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source branch
+      - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          fetch-depth: 0
-
-      - name: Setup Git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Prepare deployment folder
-        run: |
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          TARGET_DIR="site-$BRANCH_NAME"
-          mkdir $TARGET_DIR
-          echo "<h1>$BRANCH_NAME site</h1>" > $TARGET_DIR/index.html
-          git fetch origin gh-pages
-          git switch gh-pages || git checkout --orphan gh-pages
-          mkdir -p $TARGET_DIR
-          rm -rf $TARGET_DIR/*
-          cp -r $TARGET_DIR/* $TARGET_DIR/
-          git add $TARGET_DIR
-          git commit -m "Deploy $BRANCH_NAME to GitHub Pages" || echo "No changes to commit"
-
-      - name: Push to gh-pages
-        run: git push origin gh-pages
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

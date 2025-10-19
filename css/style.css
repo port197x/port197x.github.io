@@ -1,3 +1,35 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
 --corner-radius: 8px;
 --block-padding: 10px;
@@ -5,7 +37,7 @@
 --accent-color: #00aaff;
 }
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: #f4f4f4;
     padding: 40px;
     margin: 0;
@@ -20,7 +52,6 @@ h1 {
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
-  font-family: sans-serif;
 }
 
 .status-container {
@@ -36,7 +67,6 @@ h1 {
   max-width: 800px;
   margin: 0 auto 40px auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
 #weather-widget h2 {

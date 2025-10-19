@@ -35,6 +35,8 @@
 --block-padding: 10px;
 --light-bg: #f9f9f9;
 --accent-color: #00aaff;
+--badge-bg: #333;
+--badge-text: white;
 }
 body {
     font-family: 'Inter', sans-serif;
@@ -213,4 +215,20 @@ h1 {
 img.responsive {
     width: 25%;
     height: auto;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2em;
+}
+
+.badge {
+    display: inline-block;
+    background-color: var(--badge-bg);
+    color: var(--badge-text);
+    font-family: sans-serif;
+    font-size: 0.75em;
+    padding: 0.2em 0.6em;
+    border-radius: 0.3em;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.25);
 }
